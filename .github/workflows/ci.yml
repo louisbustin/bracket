@@ -50,5 +50,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
-          path: build
+          path: .svelte-kit/output
           retention-days: 7
