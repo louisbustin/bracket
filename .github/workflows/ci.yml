@@ -11,6 +11,7 @@ on:
 jobs:
   test-and-build:
     runs-on: ubuntu-latest
+    environment: dev
 
     steps:
       - name: Checkout code
@@ -42,6 +43,8 @@ jobs:
 
       - name: Build
         run: pnpm run build
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Run tests
         run: pnpm run test
