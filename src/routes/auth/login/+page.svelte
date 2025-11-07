@@ -3,8 +3,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
-	import { FormFieldIssues } from '$lib/components/ui/forms';
-	import { authClient } from '$lib/auth-client';
+	import { FormFieldIssues } from '$lib/components/forms';
 	import { getSession } from '$lib/remote/auth/session.remote';
 
 	const session = await getSession();
@@ -20,11 +19,5 @@
 	<Button type="submit">Sign in</Button>
 	<FormFieldIssues issues={loginForm.fields.issues?.()} />
 </form>
-
-<Button
-	onclick={() => {
-		authClient.signOut();
-	}}>Log out</Button
->
 
 <pre>{JSON.stringify(session, null, 2)}</pre>

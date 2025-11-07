@@ -3,7 +3,8 @@
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
 	import { signupForm } from '$lib/remote/auth/signup.remote';
-	import { FormFieldIssues } from '$lib/components/ui/forms';
+	import { FormFieldIssues } from '$lib/components/forms';
+	import { getSession } from '$lib/remote/auth/session.remote';
 </script>
 
 <form {...signupForm}>
