@@ -8,7 +8,7 @@
 </script>
 
 <div class="text-red-500">
-	{#each issues || [] as issue}
+	{#each issues || [] as issue, index (index)}
 		<p>{issue.message}</p>
 	{/each}
 </div>

@@ -1,17 +1,17 @@
 import { form } from '$app/server';
 import { auth } from '$lib/auth';
 import { redirect } from '@sveltejs/kit';
-import { BetterAuthError } from 'better-auth';
 import * as z from 'zod';
 
 export const loginForm = form(
 	z.object({
 		email: z.email().min(1, 'Email is required'),
-		password: z.string().min(1, 'Password is required')
+		password: z.string().min(1, 'Password is required'),
+		redirectTo: z.string().optional()
 	}),
 	async (data, invalid) => {
 		try {
-			const response = await auth.api.signInEmail({
+			await auth.api.signInEmail({
 				body: {
 					email: data.email,
 					password: data.password
@@ -22,5 +22,11 @@ export const loginForm = form(
 			invalid('Invalid email or password');
 			return;
 		}
+
+		if (data.redirectTo) {
+			redirect(302, data.redirectTo);
+		}
+
+		redirect(302, '/');
 	}
 );
