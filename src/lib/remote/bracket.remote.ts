@@ -5,7 +5,6 @@ import { getSession } from './auth/session.remote';
 import { bracket } from '$lib/server/db/schema';
 import { error, redirect } from '@sveltejs/kit';
 import * as z from 'zod';
-import { AwardIcon } from '@lucide/svelte';
 
 const BracketValidationSchema = z.object({
 	id: z.string().transform(Number),
@@ -21,10 +20,10 @@ export const getAllBrackets = query(async () => {
 	if (!session) {
 		redirect(302, '/auth/login');
 	}
-	const brackets = await db.query.bracket.findMany({
+
+	return await db.query.bracket.findMany({
 		where: eq(bracket.userId, session?.user.id)
 	});
-	return brackets;
 });
 
 export const getBracketById = query(z.number(), async (id) => {
