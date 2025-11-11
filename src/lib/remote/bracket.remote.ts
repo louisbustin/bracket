@@ -1,4 +1,4 @@
-import { form, query } from '$app/server';
+import { command, form, query } from '$app/server';
 import { db } from '$lib/server/db';
 import { and, eq } from 'drizzle-orm';
 import { getSession } from './auth/session.remote';
@@ -63,13 +63,22 @@ export const updateBracket = form(BracketValidationSchema, async (data) => {
 	if (!session) {
 		redirect(302, '/auth/login');
 	}
-	const [bracketData] = await db
+	await db
 		.update(bracket)
 		.set({
 			name: data.name,
 			description: data.description
 		})
-		.where(and(eq(bracket.id, data.id), eq(bracket.userId, session?.user.id)))
-		.returning();
-	redirect(302, `/brackets/${bracketData.id}`);
+		.where(and(eq(bracket.id, data.id), eq(bracket.userId, session?.user.id)));
+});
+
+export const deleteBracket = command(z.number(), async (bracketId) => {
+	const session = await getSession();
+	if (!session) {
+		redirect(302, '/auth/login');
+	}
+	await db
+		.delete(bracket)
+		.where(and(eq(bracket.id, bracketId), eq(bracket.userId, session?.user.id)));
+
 });
